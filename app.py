@@ -11,49 +11,22 @@ app = Flask(__name__)
 
 load_dotenv()
 
-# Dummy user credentials (replace these with your actual authentication logic)
-valid_username = "User"
-valid_password = "Gateway"
-
-
 openai.api_key = os.getenv("OPENAI_API_KEY")
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 print(openai.api_key)
-assistant_id = "asst_JP3dOs2Oij1DpUNCdDO4eaHe"
+assistant_id = "asst_HQOGtgMIFv1uVce8g1SKldHH"
 thread = None
 
-@app.route('/api/login', methods=['POST'])
-def login():
-    try:
-        data = request.get_json()
-        # username = data.get('username')
-        # password = data.get('password')
-        username = data.get('username', '').lower()
-        password = data.get('password', '').lower()
-
-        if username and password:
-            if username == valid_username.lower() and password == valid_password.lower():
-                return jsonify({'status': 'success', 'message': 'Login successful'})
-            else:
-                return jsonify({'message': 'Invalid username or password'})
-        else:
-            return jsonify({'message': 'Missing username or password'})
-    except Exception as e:
-        return jsonify({'message': str(e)}), 500
 
 @app.route('/api/process_request', methods=['POST'])
 def ask_question():
     try:
         global thread
-        username = request.json.get('username')
-        password = request.json.get('password')
+        
         user_question = request.json.get('user_question')
         a_thread = request.json.get('thread_id')
 
-        # Check the validity of the username and password
-        # if username != valid_username or password != valid_password:
-        #     return jsonify({'status': 'error', 'message': 'Invalid username or password'})
-
+        
         # Rest of your code for processing the user's question
         if not a_thread:
             if not thread:
